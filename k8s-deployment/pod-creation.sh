@@ -8,10 +8,12 @@ do
 done
 
 kubectl apply -f report-pod.yaml
+
+echo 'Load testing started.'
 sleep 5s
 running=1
 progress="-"
-echo 'Load testing started.'
+
 while [ $running -eq 1 ]
 do
   number_of_pods=`kubectl get pods | grep -c "Running"`

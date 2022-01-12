@@ -10,8 +10,7 @@ spec:
         type: DirectoryOrCreate
   containers:
     - name: gatling-report
-      #image: localhost:5000/gatling-report-srv
-      image: public.ecr.aws/y0e0d8m3/gatling-report-srv
+      image: localhost:5000/gatling-report-srv
       imagePullPolicy: Always
       volumeMounts:
         - name: results
