@@ -26,6 +26,8 @@ This project is to run the load test against the two APIs exposed by the simple-
             Volume Path format : '/folder1/folder2'   Note: Use the path  given in 2.b.1 , but without '/export' <br/>
 
 
+Gatling Test scripts are present in src/test/com/crunchtime/gatling/test
+
 <b>Steps to Run :</b>
 1. Build the images using  docker compose<br />
     docker compose build
@@ -35,4 +37,18 @@ This project is to run the load test against the two APIs exposed by the simple-
     a. With Docker Compose<br />
         1. use the command 'docker compose up' , this would start two  container instances ( one for each image). To scale run 'docker compose up --scale gatling-test-service=count' <br />
         2. Note: Scale  'gatling-test-service' only to the desired count, but run the 'gatling-report-service' with 1 instance <br />
-    b. With Kubernetes<br />
+    b. With Kubernetes <br />
+        1. After Step 2, make sure that the latest images are taged and pushed to the conatiner registry <br/>
+                With Local Docker registry the commands would be <br/>
+                    docker tag gatling-test-runner:latest localhost:5000/gatling-test-srv <br/>
+                    docker tag gatling-report-runner:latest localhost:5000/gatling-report-srv <br/>
+                    docker push localhost:5000/gatling-test-srv <br/>
+                    docker push localhost:5000/gatling-report-srv <br/>
+        2.  Change directory to 'k8s-deployment'
+        3.  Run the shell script ' pod-creation.sh ' with desired number of pods required for test service.  <br/>
+                For example to run 2 pods for test , command is './pod-creation.sh 2 '
+        4.  Check the reports in the path given in 2.b.1 under configuration
+        5.  Clear the pods by 'clear-pods.sh'  <br/>
+                if 2 pods are created as in step 3,  run the commmand as './clear-pods.sh 2'<br/>
+
+            
