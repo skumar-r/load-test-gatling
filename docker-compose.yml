@@ -1,0 +1,18 @@
+version: '3'
+services:
+  gatling-test-service:
+    image: gatling-test-runner
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./results/export:/build/target/gatling/export
+  gatling-report-service:
+    image: gatling-report-runner
+    build:
+      context: .
+      dockerfile: Dockerfile_Report
+    links:
+      - gatling-test-service
+    volumes:
+      - ./results:/opt/gatling/results
