@@ -2,7 +2,7 @@
 
 no_instances=$1
 
-for (( i=1; i<=$no_instances; i++ ));
+for i in $( seq 1 $no_instances )
 do
   sed "s/{{test-pod-name}}/load-test-pod-$i/g" load-test-pod-template.yaml | kubectl apply -f - ;
 done
@@ -16,7 +16,7 @@ progress="-"
 
 while [ $running -eq 1 ]
 do
-  number_of_pods=`kubectl get pods | grep -c "Running"`
+  number_of_pods=`kubectl get pods --field-selector=status.phase=Running | grep -c 'load-test-pod'`
   if  [ "$number_of_pods" -eq 0 ];
   then
       running=0
